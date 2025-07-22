@@ -1,75 +1,191 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, Dimensions} from 'react-native'
+import {useRouter} from 'expo-router'
+import { LinearGradient } from 'expo-linear-gradient';
+import { Controller, useForm} from 'react-hook-form'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup';
+import { log } from 'console';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+const {height, width} = Dimensions.get('window')
 
-export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
+const schema = yup.object({
+  email:yup.string().email('E-mail invalido').required("Digite seu email"),
+  senha:yup.string().required('Digite sua senha')
+})
+
+export default function Login(){
+    const router = useRouter()
+
+  const {control, handleSubmit, formState : {errors}} =useForm<FormData>({
+    resolver:yupResolver(schema),
+    defaultValues:{
+      email:'',
+      senha:''
+    }
+  })
+
+  function dadosLogin(data : FormData){
+    console.log(data);
+    // fetch('url',{
+    //   method:'POST',
+    //   headers:{
+    //     "Content-Type":"application/json"
+    //   },
+    //   body: JSON.stringify(data)
+    // })
+
+    router.push('./menu/')
+  }
+  
+  
+  type FormData ={
+    email:string;
+    senha:string;
+  }
+    
+    return(
+        <LinearGradient colors={['#663399', '#993399', '#CC66CC']} style={styles.gradient}>
+            <Text style={styles.title}>Login</Text>
+            <View style={styles.circleDecoration1} />
+                    <View style={styles.circleDecoration2} />
+                    <View style={styles.circleDecoration3} />
+                    <View style={styles.circleDecoration4}/>
+            <View style={styles.form}>
+                <Text style={styles.label}>E-mail</Text>
+                <Controller control={control} name='email' render={({ field : {onChange,value}}) => (
+                <TextInput id='email' placeholderTextColor={'#999'} placeholder='Digite seu e-mail' style={styles.input} value={value} onChangeText={onChange}/>  
+                )}/>
+                {errors.email && <Text style={styles.error}>{errors.email?.message}</Text>}
+                
+                <Text style={styles.label}>Senha</Text>
+                <Controller name='senha' control={control} render={({field : {onChange, value}}) => (
+                  <TextInput id='senha' placeholderTextColor={'#999'} placeholder='Digite sua senha' style={styles.input} value={value} onChangeText={onChange}/>
+                )}/>
+                {errors.senha && <Text style={styles.error}>{errors.senha?.message}</Text>}
+                
+                <TouchableOpacity id='btn' style={styles.button} onPress={handleSubmit(dadosLogin)}>
+                <Text style={styles.buttonText}>Entrar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.link} onPress={() => router.push('../colaborador/cadastrar')}>
+                <Text style={styles.link}>Cadastar</Text>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.link} onPress={() => router.push('./gestor/menu')}>
+                <Text style={styles.link}>Esqueci minha senha</Text>
+            </TouchableOpacity>
+            </View>
+        </LinearGradient>
+    );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
+    conteiner:{
+        backgroundColor:'#f0f0f0',
+        flex:1,
+        alignItems:'center',
+        justifyContent:'center',
+        padding:20
+    },
+    link:{
+        color:'#993399',
+        margin:3,
+        fontSize:14,
+        alignItems:'center',
+        justifyContent:'center',
+        marginTop:5
+    },
+      title: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    marginBottom: 20,
+    color:'#d1c3d3ff',
+    alignItems:'center',
+    marginTop:30
+    },
+    textColor:{
+        color:'#993399',
+        fontSize:30
+    },
+    form:{
+      maxHeight:'60%',
+      minHeight:'30%',
+      width:"100%",
+      maxWidth:300,
+      marginLeft:'auto',
+      marginRight:'auto',
+      backgroundColor:'#d1c3d3ff',
+      padding:20,
+      borderRadius:10,
+      marginBottom:80
+    },
+    input:{
+        backgroundColor:'#ffffff',
+        padding:12,
+        paddingRight:140,
+        borderRadius:8,
+        borderColor:'#ccc',
+        borderWidth:1
+    },
+    label:{
+        marginBottom:7,
+        marginTop:10
+    },
+      button: {
+    backgroundColor: '#993399',
+    borderRadius: 8,
+    padding: 12,
     alignItems: 'center',
-    gap: 8,
+    paddingLeft:80,
+    paddingRight:80,
+    marginTop:20
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
+  gradient:{
+    flex:1,
+    height:height,
+    alignItems:'center',
+    justifyContent:'center'
+  },
+      circleDecoration1: {
     position: 'absolute',
+    width: 200,
+    height: 200,
+    borderRadius: 100,
+    backgroundColor: 'rgba(83, 23, 117, 0.42)',
+    top: -50,
+    right: -50,
   },
-});
+  circleDecoration2: {
+    position: 'absolute',
+    width: 150,
+    height: 150,
+    borderRadius: 75,
+    backgroundColor: 'rgba(211, 175, 15, 0.53)',
+    bottom: 100,
+    left: -30,
+  },
+  circleDecoration3: {
+    position: 'absolute',
+    width: 100,
+    height: 100,
+    borderRadius: 50,
+    backgroundColor: 'rgba(168, 32, 139, 0.55)',
+    top: 180,
+    left: 12,
+  },
+  circleDecoration4:{
+    position:'absolute',
+    backgroundColor: '#993399',
+    width:190,
+    height:190,
+    borderRadius:180,
+    left:250,
+    top:560
+  },
+    error:{
+    color:'#99335aff',
+        marginBottom: 15,
+  }
+})
