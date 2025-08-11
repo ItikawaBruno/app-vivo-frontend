@@ -53,7 +53,10 @@ export default function Login(){
     
     return(
         <LinearGradient colors={['#663399', '#993399', '#CC66CC']} style={styles.gradient}>
-            <Text style={styles.title}>Login</Text>
+            <View style={styles.header}>
+                         <Text style={styles.title}>VIVI</Text>
+                        <View style={styles.titleUnderline} />
+                    </View>
             <View style={styles.circleDecoration1} />
                     <View style={styles.circleDecoration2} />
                     <View style={styles.circleDecoration3} />
@@ -104,8 +107,7 @@ const styles = StyleSheet.create({
       title: {
     fontSize: 28,
     fontWeight: 'bold',
-    marginBottom: 20,
-    color:'#d1c3d3ff',
+    color:'#c042c0ff',
     alignItems:'center',
     marginTop:30
     },
@@ -116,7 +118,7 @@ const styles = StyleSheet.create({
     form:{
       maxHeight:'60%',
       minHeight:'30%',
-      width:"100%",
+      width:"70%",
       maxWidth:'80%',
       marginLeft:'auto',
       marginRight:'auto',
@@ -195,5 +197,17 @@ const styles = StyleSheet.create({
     error:{
     color:'#99335aff',
         marginBottom: 15,
+  },
+  titleUnderline: {
+    width: 60,
+    height: 4,
+    backgroundColor: '#FFD23F',
+    marginTop: 10,
+    borderRadius: 2,
+  },
+  header:{
+    alignItems: 'center',
+    marginBottom: 40,
+    marginTop: 60,
   }
 })

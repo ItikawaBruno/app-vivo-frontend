@@ -83,7 +83,7 @@ const style = StyleSheet.create({
         alignItems:'center',
         gap:20,
         paddingLeft:40,
-        maxWidth:300
+        width:"80%"
     },
     cardTarefa:{
         marginRight:'auto',
@@ -91,7 +91,7 @@ const style = StyleSheet.create({
         backgroundColor:'#b15bb1ff',
         borderRadius:10,
         padding:20,
-        minWidth:280,
+        width:"80%",
     },
     subTitle:{
         color:'#993399',

@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     taskCardPendente:{
         backgroundColor:'#a34da3ff',
         padding:15,
-        width:250,
+        width:"70%",
         borderRadius:10,
         marginLeft:50,
         marginTop:10,
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
     taskCardFeito:{
         backgroundColor:'#5f125fff',
         padding:15,
-        width:250,
+        width:"70%",
         borderRadius:10,
         marginLeft:50,
         marginTop:10,

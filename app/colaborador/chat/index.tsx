@@ -45,7 +45,8 @@ const style = StyleSheet.create({
         paddingRight:100,
         backgroundColor:'#b669b68a',
         opacity:20,
-        borderRadius:10
+        borderRadius:10,
+        width:"80%"
     },
     boxChatBoot:{
         backgroundColor:'#993399',
@@ -56,7 +57,7 @@ const style = StyleSheet.create({
         marginTop:20,
         marginBottom:20,
         borderRadius:10,
-        maxWidth:'65%'
+        maxWidth:'75%'
     },
     boxChatUser:{
         backgroundColor:'#c981c9ff',
@@ -67,7 +68,7 @@ const style = StyleSheet.create({
         marginTop:20,
         marginBottom:20,
         borderRadius:10,
-        maxWidth:'65%'
+        maxWidth:'75%'
     },
     chat:{
         flex:1,
