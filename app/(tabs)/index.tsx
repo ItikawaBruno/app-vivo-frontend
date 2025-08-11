@@ -1,12 +1,11 @@
-import { View, StyleSheet, Text, TextInput, TouchableOpacity, Dimensions} from 'react-native'
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, Dimensions, Alert} from 'react-native'
 import {useRouter} from 'expo-router'
 import { LinearGradient } from 'expo-linear-gradient';
 import { Controller, useForm} from 'react-hook-form'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup';
-import { log } from 'console';
 
-const {height, width} = Dimensions.get('window')
+const {height} = Dimensions.get('window')
 
 const schema = yup.object({
   email:yup.string().email('E-mail invalido').required("Digite seu email"),
@@ -26,15 +25,24 @@ export default function Login(){
 
   function dadosLogin(data : FormData){
     console.log(data);
-    // fetch('url',{
-    //   method:'POST',
-    //   headers:{
-    //     "Content-Type":"application/json"
-    //   },
-    //   body: JSON.stringify(data)
-    // })
+    fetch('http://localhost:8080/login',{
+      method:'POST',
+      headers:{
+        "Content-Type":"application/json"
+      },
+      body: JSON.stringify(data)
+    }).then(async response => {
+      if (response.ok) {
+        const json = await response.json();
+        router.push('./menu/')
+      } else {
+        Alert.alert("Login falhou",'Usuário ou senha incorretos')
+      }
+    }).catch(error => {
+      console.log('Erro na requisição: ',error);
+      Alert.alert('Erro','Erro ao conectar com o servidor')
+    })
 
-    router.push('./menu/')
   }
   
   
@@ -59,7 +67,7 @@ export default function Login(){
                 
                 <Text style={styles.label}>Senha</Text>
                 <Controller name='senha' control={control} render={({field : {onChange, value}}) => (
-                  <TextInput id='senha' placeholderTextColor={'#999'} placeholder='Digite sua senha' style={styles.input} value={value} onChangeText={onChange}/>
+                  <TextInput id='senha' placeholderTextColor={'#999'} placeholder='Digite sua senha' style={styles.input} secureTextEntry={true } value={value} onChangeText={onChange}/>
                 )}/>
                 {errors.senha && <Text style={styles.error}>{errors.senha?.message}</Text>}
                 
@@ -109,7 +117,7 @@ const styles = StyleSheet.create({
       maxHeight:'60%',
       minHeight:'30%',
       width:"100%",
-      maxWidth:300,
+      maxWidth:'80%',
       marginLeft:'auto',
       marginRight:'auto',
       backgroundColor:'#d1c3d3ff',
@@ -120,7 +128,7 @@ const styles = StyleSheet.create({
     input:{
         backgroundColor:'#ffffff',
         padding:12,
-        paddingRight:140,
+        maxWidth:'100%',
         borderRadius:8,
         borderColor:'#ccc',
         borderWidth:1

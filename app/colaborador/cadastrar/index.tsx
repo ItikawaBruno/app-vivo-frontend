@@ -34,21 +34,17 @@ export default function Cadastro() {
     senha:string;
   }
 
-  function cadastrarUsuario(data: FormData){
+  async function cadastrarUsuario(data: FormData){
     console.log('Dados Recebidos',data);
     
-//   fetch("localhost:8000/cadastrar",{
-//     method:"POST",
-//     headers:{
-//         "Content-Type":"application/json",
-//     },
-//     body:JSON.stringify(dadosJson,)
-//   })
-//   .then(response => response.json())
-//   .catch(error => {
-//       console.error("Erro:", error);
-//       Alert.alert("Erro", "Falha ao cadastrar usuário.");
-//     });
+    fetch('http://192.168.15.181:8080/usuario/cadastro',{
+        method:'POST',
+        headers:{
+            'Content-Type':'application/json'
+        },
+        body:JSON.stringify(data)
+    })
+
     router.push("./menu");
 
   }
