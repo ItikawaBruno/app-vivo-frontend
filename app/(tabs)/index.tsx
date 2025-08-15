@@ -115,38 +115,35 @@ const styles = StyleSheet.create({
         color:'#993399',
         fontSize:30
     },
-    form:{
-      maxHeight:'60%',
-      minHeight:'30%',
-      width:"70%",
-      maxWidth:'80%',
-      marginLeft:'auto',
-      marginRight:'auto',
-      backgroundColor:'#d1c3d3ff',
-      padding:20,
-      borderRadius:10,
-      marginBottom:80
-    },
+    form: {
+    width: '90%',        
+    maxWidth: 400,       
+    backgroundColor: '#d1c3d3ff',
+    padding: 20,
+    borderRadius: 10,
+    marginBottom: 80,
+    alignSelf: 'center', 
+  },
     input:{
         backgroundColor:'#ffffff',
         padding:12,
         maxWidth:'100%',
         borderRadius:8,
         borderColor:'#ccc',
-        borderWidth:1
+        borderWidth:1,
+        marginTop:5
     },
     label:{
-        marginBottom:7,
-        marginTop:10
+        fontSize: 16,
+    marginTop:5
     },
-      button: {
+    button: {
     backgroundColor: '#993399',
     borderRadius: 8,
-    padding: 12,
+    paddingVertical: 12,
+    paddingHorizontal: 40, // em vez de paddingLeft/Right fixos
     alignItems: 'center',
-    paddingLeft:80,
-    paddingRight:80,
-    marginTop:20
+    marginTop: 20,
   },
   buttonText: {
     color: '#fff',

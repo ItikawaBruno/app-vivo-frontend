@@ -2,11 +2,20 @@ import { View, Text, StyleSheet, Dimensions, TouchableOpacity, ScrollView } from
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { LineChart } from "react-native-chart-kit";
 import { useRouter } from "expo-router";
+import { useEffect } from "react";
+
 
 export default function DadosColaborador() {
   const router = useRouter();
   const screenWidth = Dimensions.get("window").width;
-
+  
+    useEffect(() => {
+    const token = localStorage.getItem("token"); 
+    if (!token) {
+      router.replace("../(tabs)"); 
+    }
+  }, []);
+  
   const tarefas = [
     { titulo: "Reunião com a equipe" },
     { titulo: "Manutenção do código" },

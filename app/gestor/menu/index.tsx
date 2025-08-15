@@ -1,12 +1,49 @@
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { View, TouchableOpacity, Text, StyleSheet, ScrollView } from "react-native";
 import { useRouter } from "expo-router"
+import { useEffect } from "react";
 
 
 export default function menu(){
 
 
     const router = useRouter()
+
+    useEffect(() => {
+    const token = localStorage.getItem("token"); 
+    if (!token) {
+      router.replace("../(tabs)"); 
+    }
+    }, []);
+
+        async function desativarConta() {
+    const token = localStorage.getItem("token"); 
+    if (!token) return alert("Usuário não autenticado");
+
+    const confirmacao = window.confirm("Deseja realmente desativar sua conta?");
+    if (!confirmacao) return;
+
+    try {
+        const response = await fetch("http://localhost:8080/deletar", {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        });
+
+        if (response.ok) {
+        localStorage.removeItem("token");
+        alert("Conta desativada com sucesso!");
+        router.replace("../(tabs)"); 
+        } else {
+        alert("Não foi possível desativar a conta.");
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Erro ao desativar a conta.");
+    }
+    }
 
     const colaborador = [
         {

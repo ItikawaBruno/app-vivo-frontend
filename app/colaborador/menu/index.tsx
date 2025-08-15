@@ -2,12 +2,55 @@ import { View, StyleSheet, Text, TouchableOpacity, Animated, Alert } from 'react
 import { useRouter } from 'expo-router';
 import { useState, useRef } from 'react';
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { Navigate } from "react-router-dom";
+import { useEffect } from 'react';
 
+export function ProtectedRoute({ children }: { children: JSX.Element }) {
+  const token = localStorage.getItem("token"); 
+  return token ? children : <Navigate to="/login" replace />;
+}
 
 export default function Menu() {
     const [menuAberto, setMenuAberto] = useState(false);
     const menuWidth = useRef(new Animated.Value(40)).current;
     const router = useRouter();
+
+        useEffect(() => {
+    const token = localStorage.getItem("token"); 
+    if (!token) {
+      router.replace("../(tabs)"); 
+    }
+    }, []);
+
+    async function desativarConta() {
+    const token = localStorage.getItem("token"); 
+    if (!token) return alert("Usuário não autenticado");
+
+    const confirmacao = window.confirm("Deseja realmente desativar sua conta?");
+    if (!confirmacao) return;
+
+    try {
+        const response = await fetch("http://localhost:8080/deletar", {
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+        },
+        });
+
+        if (response.ok) {
+        localStorage.removeItem("token");
+        alert("Conta desativada com sucesso!");
+        router.replace("../(tabs)"); 
+        } else {
+        alert("Não foi possível desativar a conta.");
+        }
+    } catch (error) {
+        console.error(error);
+        alert("Erro ao desativar a conta.");
+    }
+    }
+
 
 
     let tarefas = [
@@ -72,6 +115,9 @@ export default function Menu() {
                             onPress={confirmaLogOut}
                             style={styles.icon}>
                             <MaterialCommunityIcons name="logout" size={20} color="white" />
+                        </TouchableOpacity>
+                        <TouchableOpacity onPress={desativarConta} style={styles.icon}>
+                            <MaterialCommunityIcons name="account-remove" size={20} color="white" />
                         </TouchableOpacity>
                     </>
                 )}

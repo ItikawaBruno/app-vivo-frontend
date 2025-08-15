@@ -2,10 +2,18 @@ import { View, Text, TouchableOpacity, StyleSheet, Dimensions, ScrollView } from
 import { useRouter } from 'expo-router'
 import { MaterialCommunityIcons } from '@expo/vector-icons'
 import { LineChart } from 'react-native-chart-kit'
+import { useEffect } from "react";
 
 export default function Dashboard() {
   const router = useRouter()
   const screenWidth = Dimensions.get('window').width
+
+    useEffect(() => {
+    const token = localStorage.getItem("token"); 
+    if (!token) {
+      router.replace("../(tabs)"); 
+    }
+  }, []);
 
   const boxWidth = Math.min(screenWidth * 0.9, 600)
   const boxHeight = boxWidth

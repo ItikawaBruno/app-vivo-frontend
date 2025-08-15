@@ -1,11 +1,19 @@
 import { View, Text, TouchableOpacity, StyleSheet} from "react-native";
 import { useRouter} from "expo-router";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import { useEffect } from "react";
 
 
 export default function ListStatus(){
 
     const router = useRouter()
+
+    useEffect(() => {
+    const token = localStorage.getItem("token"); 
+    if (!token) {
+      router.replace("../(tabs)"); 
+    }
+    }, []);
 
     return(
         <View style={styles.container}>

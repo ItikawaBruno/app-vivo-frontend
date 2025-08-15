@@ -1,10 +1,18 @@
 import { View, TouchableOpacity, Text, TextInput, StyleSheet, ScrollView} from 'react-native'
 import { MaterialCommunityIcons } from '@expo/vector-icons' 
 import { useRouter } from 'expo-router'
+import { useEffect } from 'react'
 
 export default function Chat(){
 
     const router = useRouter()
+
+    useEffect(() => {
+    const token = localStorage.getItem("token"); 
+    if (!token) {
+      router.replace("../(tabs)"); 
+    }
+    }, []);
 
     return(
         <View style={style.container}>

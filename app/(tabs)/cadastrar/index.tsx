@@ -37,14 +37,18 @@ export default function Cadastro() {
   async function cadastrarUsuario(data: FormData){
     console.log('Dados Recebidos',data);
     
-    fetch('http://192.168.15.181:8080/usuario/cadastro',{
+    let response = await fetch('http://192.168.15.181:8080/usuario/cadastro',{
         method:'POST',
         headers:{
             'Content-Type':'application/json'
         },
         body:JSON.stringify(data)
     })
-
+    if((await response).ok){
+      alert("Conta criada com sucesso!")
+    }else{
+      alert("Não foi possivel criar a conta")
+    }
     router.push("./menu");
 
   }
